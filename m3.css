@@ -1,0 +1,194 @@
+/* Định dạng chung */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #1e1e2f, #2a2a4a);
+    color: #fff;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Tiêu đề */
+header {
+    padding: 60px 20px;
+    background: rgba(0, 0, 0, 0.6);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
+    z-index: 0;
+}
+
+header h1, header p {
+    position: relative;
+    z-index: 1;
+}
+
+h1 {
+    font-size: 2.8em;
+    margin: 0;
+    animation: fadeInDown 1s ease-in-out;
+}
+
+p {
+    font-size: 1.2em;
+    margin: 5px 0;
+}
+
+/* Phần "Về Tôi" */
+.about {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+    gap: 40px;
+}
+
+.profile-img {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: 5px solid #fff;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.profile-img:hover {
+    transform: scale(1.15) rotate(5deg);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
+}
+
+.about .info {
+    max-width: 600px;
+    text-align: left;
+    animation: fadeInUp 1s ease-in-out;
+}
+
+/* Phần "Dự Án" */
+.projects {
+    padding: 60px 20px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.projects h2 {
+    font-size: 2.2em;
+    margin-bottom: 40px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.project-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+.project-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeInUp 1.2s ease-in-out;
+}
+
+.project-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.project-item h3 {
+    margin: 0 0 10px;
+    font-size: 1.5em;
+    color: #ffcc00;
+}
+
+.project-item p {
+    font-size: 1em;
+    margin: 0 0 15px;
+}
+
+.project-item a {
+    color: #ffcc00;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.project-item a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* Phần "Liên Hệ" */
+.contact {
+    padding: 40px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.contact h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.contact a {
+    color: #ffcc00;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.contact a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* Footer */
+footer {
+    padding: 20px;
+    font-size: 0.9em;
+    background: rgba(0, 0, 0, 0.5);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Hiệu ứng động */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .about {
+        flex-direction: column;
+        text-align: center;
+    }
+    .about .info {
+        text-align: center;
+    }
+    .project-item {
+        width: 100%;
+    }
+}
