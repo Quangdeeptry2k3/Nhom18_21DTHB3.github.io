@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security5" xmlns:layout="">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>TRY - FashionShop</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+
+</head>
+
+<body class="starter-page-page">
+
+<header id="header" class="header d-flex align-items-center sticky-top">
+  <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+    <a href="/home" class="logo d-flex align-items-center me-auto">
+      <!-- Uncomment the line below if you also wish to use an image logo -->
+      <img src="assets/img/logo.png" alt="">
+      <h1 class="sitename">Fashion Shop</h1>
+    </a>
+
+    <nav id="navmenu" class="navmenu">
+      <ul>
+        <li><a href="/home" class="active">Home<br></a></li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/products">Sản phẩm</a>
+        </li>
+        <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
+          <a th:href="@{/products/add}" class="nav-link">Thêm SP</a>
+        </li>
+        <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
+          <a th:href="@{/categories/add}" class="nav-link">Thêm loại SP</a>
+        </li>
+        <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
+          <a th:href="@{/order/history}" class="nav-link">Lịch sử ĐH</a>
+        </li>
+        <li class="dropdown"><a href="#"><span>Danh mục</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+          <ul>
+            <li class="dropdown"><a href="#"><span>Áo</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+              <ul>
+                <li><a href="#">Áo Hoodie</a></li>
+                <li><a href="#">Áo thun</a></li>
+                <li><a href="#">Áo sơ mi</a></li>
+              </ul>
+            </li>
+            <li class="dropdown"><a href="#"><span>Quần</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+              <ul>
+                <li><a href="#">Quần Kaki</a></li>
+                <li><a href="#">Quần Tây âu</a></li>
+                <li><a href="#">Quần Jean</a></li>
+              </ul>
+            </li>
+            <li class="dropdown"><a href="#"><span>Giày</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+              <ul>
+                <li><a href="#">Giày Jordan</a></li>
+                <li><a href="#">Giày Sneaker</a></li>
+                <li><a href="#">Giày Bata</a></li>
+              </ul>
+            </li>
+            <li class="dropdown"><a href="#"><span>Đồ trang sức</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+              <ul>
+                <li><a href="#">Dây chuyền</a></li>
+                <li><a href="#">Vòng tay</a></li>
+                <li><a href="#">Đồng hồ</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item" sec:authorize="isAuthenticated()">
+          <a class="btn btn-outline-light" href="/cart">Cart</a>
+        </li>
+        <li class="nav-item" sec:authorize="!isAuthenticated()">
+          <a class="btn btn-outline-light" href="/login">Đăng nhập</a>
+        </li>
+        <li><a href="#contact">Liên hệ</a></li>
+        <li class="nav-item d-flex align-items-center" sec:authorize="isAuthenticated()">
+                    <span class="navbar-text">
+                        Xin chào, <span sec:authentication="name" style="margin-right: 20px;"></span>
+                    </span>
+        </li>
+        <li class="nav-item" sec:authorize="isAuthenticated()">
+          <form th:action="@{/logout}" method="post">
+            <button class="" type="submit">Đăng xuất</button>
+          </form>
+        </li>
+      </ul>
+      <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+    </nav>
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- Page Title -->
+  <div class="page-title" data-aos="fade">
+    <div class="container">
+      <nav class="breadcrumbs">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li class="current">Danh sách sản phẩm</li>
+        </ol>
+      </nav>
+    </div>
+  </div><!-- End Page Title -->
+
+  <!-- Starter Section Section -->
+  <section id="starter-section" class="starter-section section">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+      <section layout:fragment="content">
+        <h2>Danh sách sản phẩm</h2>
+        <form th:action="@{/products}" method="get" class="mb-3">
+          <div class="input-group">
+            <input type="text" name="keyword" class="form-control" placeholder="Search by name" th:value="${keyword}">
+            <button class="btn btn-outline-secondary" type="submit">Search</button>
+          </div>
+        </form>
+        <table class="table table-bordered table-hover">
+          <thead class="table-dark">
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Category Name</th>
+            <th>Image</th>
+            <th>Actions</th>
+            <th>Add To Cart</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="product : ${products}">
+            <td th:text="${product.id}"></td>
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.price}"></td>
+            <td th:text="${product.description}"></td>
+            <td th:text="${product.category.name}"></td>
+            <td>
+              <img th:src="@{'/images/' + ${product.image}}" alt="Product Image" class="img-thumbnail" style="max-width: 100px;">
+            </td>
+            <td>
+              <!-- Hiển thị nút sửa và xóa chỉ dành cho người dùng ADMIN -->
+              <div sec:authorize="hasAuthority('ADMIN')">
+                <a th:href="@{/products/edit/{id}(id=${product.id})}"
+                   class="btn btn-success btn-sm">Sửa</a>
+                <a th:href="@{/products/delete/{id}(id=${product.id})}"
+                   class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc không?')">Xóa</a>
+                <a th:href="@{/products/view/{id}(id=${product.id})}" class="btn btn-info btn-sm">Chi Tiết</a>
+              </div>
+              <!-- Nếu không phải là ADMIN, chỉ hiển thị nút Chi tiết -->
+              <div sec:authorize="!hasAuthority('ADMIN')">
+                <a th:href="@{/products/view/{id}(id=${product.id})}" class="btn btn-info btn-sm">Chi Tiết</a>
+              </div>
+            </td>
+            <td>
+              <!-- Nút thêm vào giỏ hàng, hiển thị cho tất cả người dùng đã xác thực -->
+              <form th:action="@{/cart/add}" method="post"
+                    sec:authorize="isAuthenticated()">
+                <input type="number" name="quantity" min="1" value="1"
+                       class="form-control d-inline-block" style="width: 70px;">
+                <input type="hidden" th:value="${product.id}"
+                       name="productId"/>
+                <button type="submit" class="btn btn-warning btn-sm">Thêm Vào Giỏ</button>
+              </form>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+        <!-- Phân trang -->
+        <nav aria-label="Page navigation">
+          <ul class="pagination">
+            <li class="page-item" th:classappend="${currentPage == 1} ? disabled">
+              <a class="page-link" th:href="@{/products(page=1, keyword=${keyword})}">First</a>
+            </li>
+            <li class="page-item" th:classappend="${currentPage == 1} ? disabled">
+              <a class="page-link" th:href="@{/products(page=${currentPage - 1}, keyword=${keyword})}">Previous</a>
+            </li>
+            <!-- Hiển thị các số trang -->
+            <li th:each="pageNumber : ${#numbers.sequence(1, totalPages)}"
+                th:classappend="${pageNumber == currentPage} ? 'page-item active' : 'page-item'">
+              <a class="page-link" th:href="@{/products(page=${pageNumber}, keyword=${keyword})}" th:text="${pageNumber}"></a>
+            </li>
+            <li class="page-item" th:classappend="${currentPage == totalPages} ? disabled">
+              <a class="page-link" th:href="@{/products(page=${currentPage + 1}, keyword=${keyword})}">Next</a>
+            </li>
+            <li class="page-item" th:classappend="${currentPage == totalPages} ? disabled">
+              <a class="page-link" th:href="@{/products(page=${totalPages}, keyword=${keyword})}">Last</a>
+            </li>
+          </ul>
+        </nav>
+      </section>
+    </div><!-- End Section Title -->
+
+  </section><!-- /Starter Section Section -->
+
+</main>
+
+<footer id="footer" class="footer">
+
+  <div class="container">
+    <div class="copyright text-center ">
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">Fashion Shop</strong> <span>All Rights Reserved</span></p>
+    </div>
+    <div class="social-links d-flex justify-content-center">
+      <a href=""><i class="bi bi-twitter-x"></i></a>
+      <a href=""><i class="bi bi-facebook"></i></a>
+      <a href=""><i class="bi bi-instagram"></i></a>
+      <a href=""><i class="bi bi-linkedin"></i></a>
+    </div>
+    <div class="credits">
+      Designed by <a href="https://zalo.me/g/fxxtdz945">TRY Team</a>
+    </div>
+  </div>
+
+</footer>
+
+<!-- Scroll Top -->
+<a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- Preloader -->
+<div id="preloader"></div>
+
+<!-- Vendor JS Files -->
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
+<script src="assets/vendor/aos/aos.js"></script>
+<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+<script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+<script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+
+<!-- Main JS File -->
+<script src="assets/js/main.js"></script>
+
+</body>
+
+</html>

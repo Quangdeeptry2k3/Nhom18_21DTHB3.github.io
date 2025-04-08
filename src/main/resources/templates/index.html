@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>TRY - FashionShop</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Main CSS File -->
+    <link href="assets/css/main.css" rel="stylesheet">
+</head>
+
+<body class="index-page">
+
+<header id="header" class="header d-flex align-items-center sticky-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+        <a href="/home" class="logo d-flex align-items-center me-auto">
+            <img src="assets/img/logo.png" alt="">
+            <h1 class="sitename">Fashion Shop</h1>
+        </a>
+
+        <nav id="navmenu" class="navmenu">
+            <ul>
+                <li><a href="/home" class="active">Home<br></a></li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/products">Sản phẩm</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
+                    <a th:href="@{/products/add}" class="nav-link">Thêm sản phẩm</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
+                    <a th:href="@{/categories/add}" class="nav-link">Thêm loại SP</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
+                    <a th:href="@{/order/history}" class="nav-link">Lịch sử ĐH</a>
+                    <!--                    <a th:href="@{/orders/history}">Lịch sử đơn hàng</a>-->
+                </li>
+                <li class="dropdown"><a href="#"><span>Danh mục</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                    <ul>
+                        <li class="dropdown"><a href="#"><span>Áo</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                            <ul>
+                                <li><a href="/products/view/1">Áo Hoodie</a></li>
+                                <li><a href="/products/view/2">Áo thun</a></li>
+                                <li><a href="/products/view/3">Áo sơ mi</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown"><a href="#"><span>Quần</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                            <ul>
+                                <li><a href="/products/view/5">Quần Kaki</a></li>
+                                <li><a href="/products/view/4">Quần Tây âu</a></li>
+                                <li><a href="/products/view/6">Quần Jean</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown"><a href="#"><span>Giày</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                            <ul>
+                                <li><a href="/products/view/8">Giày Jordan</a></li>
+                                <li><a href="/products/view/12">Giày Sneaker</a></li>
+                                <li><a href="/products/view/10">Giày Bata</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown"><a href="#"><span>Đồ trang sức</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                            <ul>
+                                <li><a href="/products/view/9">Dây chuyền</a></li>
+                                <li><a href="/products/view/11">Vòng tay</a></li>
+                                <li><a href="/products/view/7">Đồng hồ</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="btn btn-outline-light" href="/cart">Cart</a>
+                </li>
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                    <a class="btn btn-outline-light" href="/login">Đăng nhập</a>
+                </li>
+                <li><a href="#contact">Liên hệ</a></li>
+                <li class="nav-item d-flex align-items-center" sec:authorize="isAuthenticated()">
+                    <span class="navbar-text">
+                        Xin chào, <span sec:authentication="name" style="margin-right: 20px;"></span>
+                    </span>
+                </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" method="post">
+                        <button class="" type="submit">Đăng xuất</button>
+                    </form>
+                </li>
+            </ul>
+            <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
+    </div>
+</header>
+
+<main class="main">
+    <div class="container mt-5">
+        <section layout:fragment="content">
+            <!-- Nội dung cụ thể của từng trang sẽ được đặt tại đây -->
+        </section>
+    </div>
+    <!-- Hero Section -->
+    <section id="hero" class="hero section">
+        <div class="container">
+            <div class="row gy-4">
+                <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                    <h1>Thời Trang Chính Hãng</h1>
+                    <p>Uy tín làm nên thương hiệu</p>
+                    <div class="d-flex">
+                        <a href="#portfolio" class="btn-get-started">Khám phá ngay!</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 order-1 order-lg-2 hero-img">
+                    <img src="assets/img/anhnen2.jpg" class="img-fluid animated" alt="">
+                </div>
+            </div>
+        </div>
+
+    </section><!-- /Hero Section -->
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio section">
+
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+            <h2>Sản phẩm</h2>
+
+        </div><!-- End Section Title -->
+
+        <div class="container">
+
+            <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
+
+                <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="100">
+                    <li data-filter="*" class="filter-active">Tất cả</li>
+                    <li data-filter=".filter-app">Áo</li>
+                    <li data-filter=".filter-product">Quần</li>
+                    <li data-filter=".filter-branding">Giày</li>
+                    <li data-filter=".filter-books">Đồ trang sức</li>
+                </ul><!-- End Portfolio Filters -->
+
+                <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
+
+                    <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-app">
+                        <div class="portfolio-content h-100">
+                            <img src="images/20230729_r9mvJ1o6SE.jpeg" class="img-fluid" alt="">
+                            <div class="portfolio-info">
+                                <h4>Áo Hoodie</h4>
+                                <a href="images/20230729_r9mvJ1o6SE.jpeg" title="Áo Hoodie" data-gallery="portfolio-gallery-app" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
+                                <a href="/products/view/1" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                            </div>
+                        </div>
+                    </div><!-- End Portfolio Item -->
+
+                    <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-product">
+                        <div class="portfolio-content h-100">
+                            <img src="images/quantay.webp" class="img-fluid" alt="">
+                            <div class="portfolio-info">
+                                <h4>Quần Tây âu</h4>
+                                <a href="images/quantay.webp" title="Quần Tây âu" data-gallery="portfolio-gallery-product" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
+                                <a href="/products/view/4" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                            </div>
+                        </div>
+                    </div><!-- End Portfolio Item -->
+
+                    <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-branding">
+                        <div class="portfolio-content h-100">
+                            <img src="images/jordan.webp" class="img-fluid" alt="">
+                            <div class="portfolio-info">
+                                <h4>Giày Jordan</h4>
+                                <a href="images/jordan.webp" title="Giày Jordan" data-gallery="portfolio-gallery-branding" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
+                                <a href="/products/view/8" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                            </div>
+                        </div>
+                    </div><!-- End Portfolio Item -->
+
+                    <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-books">
+                        <div class="portfolio-content h-100">
+                            <img src="images/vtay.jpg" class="img-fluid" alt="">
+                            <div class="portfolio-info">
+                                <h4>Vòng tay</h4>
+                                <a href="images/vtay.jpg" title="Vòng tay" data-gallery="portfolio-gallery-book" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
+                                <a href="/products/view/11" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                            </div>
+                        </div>
+                    </div><!-- End Portfolio Item -->
+
+                    <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-app">
+                        <div class="portfolio-content h-100">
+                            <img src="images/somi.webp" class="img-fluid" alt="">
+                            <div class="portfolio-info">
+                                <h4>Áo sơ mi trắng</h4>
+                                <a href="images/somi.webp" title="Áo sơ mi trắng" data-gallery="portfolio-gallery-app" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
+                                <a href="/products/view/3" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                            </div>
+                        </div>
+                    </div><!-- End Portfolio Item -->
+
+                    <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-product">
+                        <div class="portfolio-content h-100">
+                            <img src="images/kaki.webp" class="img-fluid" alt="">
+                            <div class="portfolio-info">
+                                <h4>Quần Kaki</h4>
+                                <a href="images/kaki.webp" title="Quần Kaki" data-gallery="portfolio-gallery-product" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
+                                <a href="/products/view/5" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                            </div>
+                        </div>
+                    </div><!-- End Portfolio Item -->
+
+                    <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-branding">
+                        <div class="portfolio-content h-100">
+                            <img src="images/sneaker.jpg" class="img-fluid" alt="">
+                            <div class="portfolio-info">
+                                <h4>Giày Sneaker</h4>
+                                <a href="images/sneaker.jpg" title="Giày Sneaker" data-gallery="portfolio-gallery-branding" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
+                                <a href="/products/view/12" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                            </div>
+                        </div>
+                    </div><!-- End Portfolio Item -->
+
+                    <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-books">
+                        <div class="portfolio-content h-100">
+                            <img src="images/daychuyen.jpg" class="img-fluid" alt="">
+                            <div class="portfolio-info">
+                                <h4>Dây chuyền</h4>
+                                <a href="images/daychuyen.jpg" title="Dây chuyền" data-gallery="portfolio-gallery-book" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
+                                <a href="/products/view/9" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                            </div>
+                        </div>
+                    </div><!-- End Portfolio Item -->
+
+                    <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-app">
+                        <div class="portfolio-content h-100">
+                            <img src="images/thun.webp" class="img-fluid" alt="">
+                            <div class="portfolio-info">
+                                <h4>Áo thun</h4>
+                                <a href="images/thun.webp" title="Áo thun" data-gallery="portfolio-gallery-app" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
+                                <a href="/products/view/2" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                            </div>
+                        </div>
+                    </div><!-- End Portfolio Item -->
+
+                    <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-product">
+                        <div class="portfolio-content h-100">
+                            <img src="images/jean.jpeg" class="img-fluid" alt="">
+                            <div class="portfolio-info">
+                                <h4>Quần Jean</h4>
+                                <a href="images/jean.jpeg" title="Quần Jean" data-gallery="portfolio-gallery-product" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
+                                <a href="/products/view/6" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                            </div>
+                        </div>
+                    </div><!-- End Portfolio Item -->
+
+                    <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-branding">
+                        <div class="portfolio-content h-100">
+                            <img src="images/giaybata.jpg" class="img-fluid" alt="">
+                            <div class="portfolio-info">
+                                <h4>Giày Bata</h4>
+                                <a href="images/giaybata.jpg" title="Giày Bata" data-gallery="portfolio-gallery-branding" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
+                                <a href="/products/view/10" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                            </div>
+                        </div>
+                    </div><!-- End Portfolio Item -->
+
+                    <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-books">
+                        <div class="portfolio-content h-100">
+                            <img src="images/dho.jpg" class="img-fluid" alt="">
+                            <div class="portfolio-info">
+                                <h4>Đồng hồ</h4>
+                                <a href="images/dho.jpg" title="Đồng hồ" data-gallery="portfolio-gallery-book" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
+                                <a href="/products/view/7" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                            </div>
+                        </div>
+                    </div><!-- End Portfolio Item -->
+
+                </div><!-- End Portfolio Container -->
+
+            </div>
+
+        </div>
+
+    </section><!-- /Portfolio Section -->
+
+    <!-- Stats Section -->
+    <section id="stats" class="stats section">
+
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="row gy-4 align-items-center">
+
+                <div class="col-lg-5">
+                    <img src="assets/img/stats-img.svg" alt="" class="img-fluid">
+                </div>
+
+                <div class="col-lg-7">
+
+                    <div class="row gy-4">
+
+                        <div class="col-lg-6">
+                            <div class="stats-item d-flex">
+                                <i class="bi bi-emoji-smile flex-shrink-0"></i>
+                                <div>
+                                    <span data-purecounter-start="0" data-purecounter-end="500" data-purecounter-duration="1" class="purecounter"></span>
+                                    <p><strong>Khách hàng</strong> <span>hài lòng với chất lượng ở shop</span></p>
+                                </div>
+                            </div>
+                        </div><!-- End Stats Item -->
+
+                        <div class="col-lg-6">
+                            <div class="stats-item d-flex">
+                                <i class="bi bi-journal-richtext flex-shrink-0"></i>
+                                <div>
+                                    <span data-purecounter-start="0" data-purecounter-end="50" data-purecounter-duration="1" class="purecounter"></span>
+                                    <p><strong>Mẫu mới</strong> <span>đã được thiết kế cho thời gian sắp tới</span></p>
+                                </div>
+                            </div>
+                        </div><!-- End Stats Item -->
+
+                        <div class="col-lg-6">
+                            <div class="stats-item d-flex">
+                                <i class="bi bi-headset flex-shrink-0"></i>
+                                <div>
+                                    <span data-purecounter-start="0" data-purecounter-end="552" data-purecounter-duration="1" class="purecounter"></span>
+                                    <p><strong>Ý kiến</strong> <span>của khách hàng đã được tiếp thu</span></p>
+                                </div>
+                            </div>
+                        </div><!-- End Stats Item -->
+
+                        <div class="col-lg-6">
+                            <div class="stats-item d-flex">
+                                <i class="bi bi-people flex-shrink-0"></i>
+                                <div>
+                                    <span data-purecounter-start="0" data-purecounter-end="1500" data-purecounter-duration="1" class="purecounter"></span>
+                                    <p><strong>Số lượng</strong> <span>khách hàng đã truy cập vào website</span></p>
+                                </div>
+                            </div>
+                        </div><!-- End Stats Item -->
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section><!-- /Stats Section -->
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials section light-background">
+
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+            <h2>Đánh giá của chuyên gia</h2>
+        </div><!-- End Section Title -->
+
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="swiper init-swiper">
+                <script type="application/json" class="swiper-config">
+                    {
+                        "loop": true,
+                        "speed": 600,
+                        "autoplay": {
+                            "delay": 5000
+                        },
+                        "slidesPerView": "auto",
+                        "pagination": {
+                            "el": ".swiper-pagination",
+                            "type": "bullets",
+                            "clickable": true
+                        },
+                        "breakpoints": {
+                            "320": {
+                                "slidesPerView": 1,
+                                "spaceBetween": 40
+                            },
+                            "1200": {
+                                "slidesPerView": 2,
+                                "spaceBetween": 20
+                            }
+                        }
+                    }
+                </script>
+                <div class="swiper-wrapper">
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-wrap">
+                            <div class="testimonial-item">
+                                <img src="assets/img/testimonials/a1.webp" class="testimonial-img" alt="">
+                                <h3>Anna Wintour</h3>
+                                <h4>Tổng biên tập Tạp chí Vogue</h4>
+                                <div class="stars">
+                                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                                </div>
+                                <p>
+                                    <i class="bi bi-quote quote-icon-left"></i>
+                                    <span>Một nơi tuyệt vời để khám phá những xu hướng thời trang mới nhất và sáng tạo nhất.</span>
+                                    <i class="bi bi-quote quote-icon-right"></i>
+                                </p>
+                            </div>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-wrap">
+                            <div class="testimonial-item">
+                                <img src="assets/img/testimonials/a2.jpg" class="testimonial-img" alt="">
+                                <h3>Tom Ford</h3>
+                                <h4>Nhà thiết kế thời trang, Giám đốc sáng tạo</h4>
+                                <div class="stars">
+                                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                                </div>
+                                <p>
+                                    <i class="bi bi-quote quote-icon-left"></i>
+                                    <span>Shop này luôn mang đến những bộ sưu tập độc đáo và đẳng cấp, phù hợp với mọi phong cách.</span>
+                                    <i class="bi bi-quote quote-icon-right"></i>
+                                </p>
+                            </div>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-wrap">
+                            <div class="testimonial-item">
+                                <img src="assets/img/testimonials/a3.jpg" class="testimonial-img" alt="">
+                                <h3>Karl Lagerfeld</h3>
+                                <h4>Nhà thiết kế thời trang, Giám đốc sáng tạo của Chanel</h4>
+                                <div class="stars">
+                                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                                </div>
+                                <p>
+                                    <i class="bi bi-quote quote-icon-left"></i>
+                                    <span>Nơi đây thực sự là biểu tượng của sự sang trọng và thời trang đỉnh cao.</span>
+                                    <i class="bi bi-quote quote-icon-right"></i>
+                                </p>
+                            </div>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-wrap">
+                            <div class="testimonial-item">
+                                <img src="assets/img/testimonials/a4.jpg" class="testimonial-img" alt="">
+                                <h3>Giovanna Battaglia Engelbert</h3>
+                                <h4>Giám đốc sáng tạo toàn cầu của Swarovski</h4>
+                                <div class="stars">
+                                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                                </div>
+                                <p>
+                                    <i class="bi bi-quote quote-icon-left"></i>
+                                    <span>Sự kết hợp hoàn hảo giữa thiết kế đột phá và chất lượng tuyệt hảo.</span>
+                                    <i class="bi bi-quote quote-icon-right"></i>
+                                </p>
+                            </div>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-wrap">
+                            <div class="testimonial-item">
+                                <img src="assets/img/testimonials/a11.webp" class="testimonial-img" alt="">
+                                <h3>Eva Chen</h3>
+                                <h4>Giám đốc quan hệ đối tác thời trang tại Instagram</h4>
+                                <div class="stars">
+                                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                                </div>
+                                <p>
+                                    <i class="bi bi-quote quote-icon-left"></i>
+                                    <span>Website này mang đến trải nghiệm mua sắm trực tuyến tuyệt vời với giao diện thân thiện và sản phẩm đa dạng.</span>
+                                    <i class="bi bi-quote quote-icon-right"></i>
+                                </p>
+                            </div>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+
+        </div>
+
+    </section><!-- /Testimonials Section -->
+
+    <!-- Team Section -->
+    <section id="team" class="team section">
+
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+            <h2>Nhà thiết kế</h2>
+
+        </div><!-- End Section Title -->
+
+        <div class="container">
+
+            <div class="row gy-4">
+
+                <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+                    <div class="team-member">
+                        <div class="member-img">
+                            <img src="assets/img/team/t7.jpg" class="img-fluid" alt="">
+                            <div class="social">
+                                <!--                <a href=""><i class="bi bi-twitter-x"></i></a>-->
+                                <a href="https://www.facebook.com/profile.php?id=100007856257201&mibextid=LQQJ4d"><i class="bi bi-facebook"></i></a>
+                                <!--                <a href=""><i class="bi bi-instagram"></i></a>-->
+                                <!--                <a href=""><i class="bi bi-linkedin"></i></a>-->
+                            </div>
+                        </div>
+                        <div class="member-info">
+                            <h4>Nguyễn Hữu Kỳ Phong</h4>
+                            <span>2180606462</span>
+                        </div>
+                    </div>
+                </div><!-- End Team Member -->
+
+                <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+                    <div class="team-member">
+                        <div class="member-img">
+                            <img src="assets/img/team/t2.jpg" class="img-fluid" alt="">
+                            <div class="social">
+                                <a href="https://www.facebook.com/profile.php?id=100032883181009&mibextid=LQQJ4d"><i class="bi bi-facebook"></i></a>
+                            </div>
+                        </div>
+                        <div class="member-info">
+                            <h4>Lê Trần Nhật Quang</h4>
+                            <span>2180606590</span>
+                        </div>
+                    </div>
+                </div><!-- End Team Member -->
+
+                <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
+                    <div class="team-member">
+                        <div class="member-img">
+                            <img src="assets/img/team/t3.jpg" class="img-fluid" alt="">
+                            <div class="social">
+                                <a href="https://www.facebook.com/peokhongsuy?mibextid=LQQJ4d"><i class="bi bi-facebook"></i></a>
+                            </div>
+                        </div>
+                        <div class="member-info">
+                            <h4>Võ Lê Thiên Bảo</h4>
+                            <span>2180600125</span>
+                        </div>
+                    </div>
+                </div><!-- End Team Member -->
+
+                <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="400">
+                    <div class="team-member">
+                        <div class="member-img">
+                            <img src="assets/img/team/t6.jpg" class="img-fluid" alt="">
+                            <div class="social">
+                                <a href="https://www.facebook.com/giangit15?mibextid=LQQJ4d"><i class="bi bi-facebook"></i></a>
+                            </div>
+                        </div>
+                        <div class="member-info">
+                            <h4>Trần Tiến Giang</h4>
+                            <span>2180606127</span>
+                        </div>
+                    </div>
+                </div><!-- End Team Member -->
+
+                <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="400">
+                    <div class="team-member">
+                        <div class="member-img">
+                            <img src="assets/img/team/t5.jpg" class="img-fluid" alt="">
+                            <div class="social">
+                                <a href="https://www.facebook.com/huynh.phat.9404362?mibextid=LQQJ4d"><i class="bi bi-facebook"></i></a>
+                            </div>
+                        </div>
+                        <div class="member-info">
+                            <h4>Huỳnh Lê Thuận Phát</h4>
+                            <span>2180602737</span>
+                        </div>
+                    </div>
+                </div><!-- End Team Member -->
+
+            </div>
+
+        </div>
+
+    </section><!-- /Team Section -->
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact section">
+
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+            <h2>Liên hệ</h2>
+        </div><!-- End Section Title -->
+
+        <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="row gy-4">
+
+                <div class="col-lg-5">
+                    <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="200">
+                        <i class="bi bi-geo-alt flex-shrink-0"></i>
+                        <div>
+                            <h3>Địa chỉ:</h3>
+                            <p>Linh Trung, Thủ Đức</p>
+                        </div>
+                    </div><!-- End Info Item -->
+
+                    <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="300">
+                        <i class="bi bi-telephone flex-shrink-0"></i>
+                        <div>
+                            <h3>Hotline:</h3>
+                            <p>1900 9999</p>
+                        </div>
+                    </div><!-- End Info Item -->
+
+                    <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="400">
+                        <i class="bi bi-envelope flex-shrink-0"></i>
+                        <div>
+                            <h3>Email</h3>
+                            <p>FashionShop@gmail.com</p>
+                        </div>
+                    </div><!-- End Info Item -->
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section><!-- /Contact Section -->
+</main>
+
+<footer id="footer" class="footer">
+
+    <div class="container">
+        <div class="copyright text-center ">
+            <p>© <span>Copyright</span> <strong class="px-1 sitename">Fashion Shop</strong> <span>All Rights Reserved</span></p>
+        </div>
+        <div class="social-links d-flex justify-content-center">
+            <a href=""><i class="bi bi-twitter-x"></i></a>
+            <a href=""><i class="bi bi-facebook"></i></a>
+            <a href=""><i class="bi bi-instagram"></i></a>
+            <a href=""><i class="bi bi-linkedin"></i></a>
+        </div>
+        <div class="credits">
+            Designed by <a href="https://zalo.me/g/fxxtdz945">TRY Team</a>
+        </div>
+    </div>
+
+</footer>
+
+<!-- Scroll Top -->
+<a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- Preloader -->
+<div id="preloader"></div>
+
+<!-- Vendor JS Files -->
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
+<script src="assets/vendor/aos/aos.js"></script>
+<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+<script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+<script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+
+<!-- Main JS File -->
+<script src="assets/js/main.js"></script>
+</body>
+</html>
